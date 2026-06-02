@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/bg_dark" android:orientation="vertical">
+
+    <!-- Header -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="56dp"
+        android:background="@color/bg_surface" android:gravity="center_vertical"
+        android:paddingHorizontal="16dp" android:orientation="horizontal">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:text="ALMACÉN"
+            android:textColor="@color/accent" android:textSize="16sp" android:textStyle="bold"/>
+        <TextView android:id="@+id/tvUserName"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:textColor="@color/text_secondary" android:textSize="13sp"
+            android:layout_marginEnd="12dp"/>
+        <Button android:id="@+id/btnLogout"
+            android:layout_width="wrap_content" android:layout_height="36dp"
+            android:text="Salir" style="@style/BtnOutline" android:textSize="12sp"
+            android:paddingHorizontal="12dp"/>
+    </LinearLayout>
+
+    <!-- Fragment container -->
+    <FrameLayout android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent" android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- Bottom navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:background="@color/bg_surface"
+        app:itemIconTint="@color/text_secondary"
+        app:itemTextColor="@color/text_secondary"
+        app:itemActiveIndicatorColor="@color/accent"
+        app:menu="@menu/bottom_nav_menu"/>
+</LinearLayout>

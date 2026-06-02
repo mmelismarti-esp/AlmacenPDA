@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Almacén PDA</string>
+    <string name="nav_scanner">Escáner</string>
+    <string name="nav_reception">Entrada</string>
+    <string name="nav_picking">Pedidos</string>
+    <string name="nav_inventory">Inventario</string>
+</resources>
