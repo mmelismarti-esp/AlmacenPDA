@@ -4,7 +4,7 @@ import android.graphics.Paint
 import android.os.Bundle
 import android.view.*
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -76,7 +76,7 @@ class PickingDetailFragment : Fragment() {
     private fun mostrarIncidencia(pos: Int) {
         val linea = lineas[pos]
         val razones = arrayOf("Sin stock", "No sacar", "Devolver al stock")
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle("Incidencia: ${linea.productoNombre}")
             .setItems(razones) { _, which ->
                 val razon = when (which) { 0 -> "sin_stock"; 1 -> "no_sacar"; else -> "devolver_stock" }
@@ -107,7 +107,7 @@ class PickingDetailFragment : Fragment() {
             toast("Quedan $pendientes artículo(s) sin marcar")
             return
         }
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle("¿Marcar como preparado?")
             .setMessage("Se confirma que todo el material está listo.")
             .setPositiveButton("Confirmar") { _, _ ->

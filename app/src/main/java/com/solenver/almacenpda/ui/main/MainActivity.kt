@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MenuItem
+import android.widget.PopupMenu
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -15,7 +17,9 @@ import com.solenver.almacenpda.ui.login.LoginActivity
 import com.solenver.almacenpda.ui.picking.PickingListFragment
 import com.solenver.almacenpda.ui.reception.ReceptionFragment
 import com.solenver.almacenpda.ui.scanner.ScannerFragment
+import com.solenver.almacenpda.ui.settings.SettingsFragment
 import com.solenver.almacenpda.utils.ScannerHelper
+import com.solenver.almacenpda.utils.ThemeHelper
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private val scannerHelper = ScannerHelper { code -> forwardScanToFragment(code) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ThemeHelper.applyTheme(this)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -32,11 +37,39 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNav.setOnItemSelectedListener { item -> onNavSelected(item) }
         binding.bottomNav.selectedItemId = R.id.nav_scanner
 
-        binding.btnLogout.setOnClickListener {
-            PreferencesManager.clear(this)
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+        binding.userProfileContainer.setOnClickListener { view ->
+            val popup = PopupMenu(this, view)
+            popup.menuInflater.inflate(R.menu.user_profile_menu, popup.menu)
+            popup.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.action_settings -> {
+                        loadFragment(SettingsFragment(), addToBackStack = true)
+                        true
+                    }
+                    R.id.action_logout -> {
+                        confirmLogout()
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popup.show()
         }
+    }
+
+    private fun confirmLogout() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Cerrar Sesión")
+            .setMessage("¿Estás seguro de que deseas cerrar sesión?")
+            .setPositiveButton("Confirmar") { _, _ -> logout() }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun logout() {
+        PreferencesManager.clear(this)
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 
     private fun onNavSelected(item: MenuItem): Boolean {

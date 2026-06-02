@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.AlmacenPDA" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/accent</item>
-        <item name="colorPrimaryVariant">@color/accent_dark</item>
+    <style name="Base.Theme.AlmacenPDA" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorOnPrimary">@color/bg_dark</item>
         <item name="colorSurface">@color/bg_surface</item>
         <item name="colorOnSurface">@color/text_primary</item>
@@ -11,10 +9,80 @@
         <item name="android:navigationBarColor">@color/bg_surface</item>
         <item name="android:textColorPrimary">@color/text_primary</item>
         <item name="android:textColorSecondary">@color/text_secondary</item>
+
+        <!-- Fix Popups and Dialogs colors -->
+        <item name="android:popupMenuStyle">@style/CustomPopupMenu</item>
+        <item name="android:dialogTheme">@style/CustomDialogTheme</item>
+        <item name="alertDialogTheme">@style/CustomDialogTheme</item>
+        <item name="android:dropDownListViewStyle">@style/CustomDropDownListView</item>
+    </style>
+
+    <!-- Style Variants -->
+    <style name="Theme.AlmacenPDA.Azul" parent="Base.Theme.AlmacenPDA">
+        <item name="colorPrimary">@color/style_azul</item>
+        <item name="colorPrimaryVariant">@color/style_azul</item>
+    </style>
+    <style name="Theme.AlmacenPDA.Cielo" parent="Base.Theme.AlmacenPDA">
+        <item name="colorPrimary">@color/style_cielo</item>
+        <item name="colorPrimaryVariant">@color/style_cielo</item>
+    </style>
+    <style name="Theme.AlmacenPDA.VerdeAzulado" parent="Base.Theme.AlmacenPDA">
+        <item name="colorPrimary">@color/style_verde_azulado</item>
+        <item name="colorPrimaryVariant">@color/style_verde_azulado</item>
+    </style>
+    <style name="Theme.AlmacenPDA.Verde" parent="Base.Theme.AlmacenPDA">
+        <item name="colorPrimary">@color/style_verde</item>
+        <item name="colorPrimaryVariant">@color/style_verde</item>
+    </style>
+    <style name="Theme.AlmacenPDA.Lima" parent="Base.Theme.AlmacenPDA">
+        <item name="colorPrimary">@color/style_lima</item>
+        <item name="colorPrimaryVariant">@color/style_lima</item>
+    </style>
+    <style name="Theme.AlmacenPDA.Ambar" parent="Base.Theme.AlmacenPDA">
+        <item name="colorPrimary">@color/style_ambar</item>
+        <item name="colorPrimaryVariant">@color/style_ambar</item>
+    </style>
+    <style name="Theme.AlmacenPDA.Naranja" parent="Base.Theme.AlmacenPDA">
+        <item name="colorPrimary">@color/style_naranja</item>
+        <item name="colorPrimaryVariant">@color/style_naranja</item>
+    </style>
+    <style name="Theme.AlmacenPDA.Rojo" parent="Base.Theme.AlmacenPDA">
+        <item name="colorPrimary">@color/style_rojo</item>
+        <item name="colorPrimaryVariant">@color/style_rojo</item>
+    </style>
+    <style name="Theme.AlmacenPDA.Rosa" parent="Base.Theme.AlmacenPDA">
+        <item name="colorPrimary">@color/style_rosa</item>
+        <item name="colorPrimaryVariant">@color/style_rosa</item>
+    </style>
+    <style name="Theme.AlmacenPDA.Morado" parent="Base.Theme.AlmacenPDA">
+        <item name="colorPrimary">@color/style_morado</item>
+        <item name="colorPrimaryVariant">@color/style_morado</item>
+    </style>
+
+    <!-- Default compatibility theme -->
+    <style name="Theme.AlmacenPDA" parent="Theme.AlmacenPDA.Azul" />
+
+    <style name="CustomPopupMenu" parent="Widget.MaterialComponents.PopupMenu">
+        <item name="android:popupBackground">@color/bg_surface</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <style name="CustomDropDownListView" parent="Widget.AppCompat.ListView.DropDown">
+        <item name="android:background">@color/bg_surface</item>
+        <item name="android:divider">@color/divider</item>
+    </style>
+
+    <style name="CustomDialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="colorSurface">@color/bg_surface</item>
+        <item name="colorPrimary">?attr/colorPrimary</item>
+        <item name="colorAccent">?attr/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
     </style>
 
     <style name="BtnPrimary" parent="Widget.MaterialComponents.Button">
-        <item name="android:backgroundTint">@color/accent</item>
+        <item name="android:backgroundTint">?attr/colorPrimary</item>
         <item name="android:textColor">@color/bg_dark</item>
         <item name="android:textSize">16sp</item>
         <item name="android:paddingTop">14dp</item>
@@ -22,8 +90,8 @@
     </style>
 
     <style name="BtnOutline" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="strokeColor">@color/accent</item>
-        <item name="android:textColor">@color/accent</item>
+        <item name="strokeColor">?attr/colorPrimary</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:textSize">14sp</item>
     </style>
 </resources>

@@ -1,103 +1,219 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@color/bg_dark" android:orientation="vertical" android:padding="16dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="Escáner de producto" android:textColor="@color/text_primary"
-        android:textSize="18sp" android:textStyle="bold" android:layout_marginBottom="16dp"/>
+    <!-- Area de Búsqueda -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="horizontal" android:layout_marginBottom="16dp">
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="0dp" android:layout_height="wrap_content"
-            android:layout_weight="1" android:hint="Código de barras / referencia"
+            android:id="@+id/tilScan"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginEnd="8dp">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Esperando escaneo...">
+
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etCodigo"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:inputType="text" android:textColor="@color/text_primary"
-                android:textSize="16sp" android:imeOptions="actionSearch"/>
+                android:id="@+id/etScan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColor="@color/text_primary" />
         </com.google.android.material.textfield.TextInputLayout>
-        <Button android:id="@+id/btnBuscar"
-            android:layout_width="56dp" android:layout_height="56dp"
-            android:text="→" style="@style/BtnPrimary"/>
+
+        <ImageButton
+            android:id="@+id/btnToggleKeyboard"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Abrir teclado"
+            android:src="@android:drawable/ic_menu_edit"
+            app:tint="@color/text_secondary" />
     </LinearLayout>
 
-    <ProgressBar android:id="@+id/progressBar"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_gravity="center" android:visibility="gone"
-        android:indeterminateTint="@color/accent"/>
-
-    <androidx.cardview.widget.CardView android:id="@+id/cardResult"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
+    <ProgressBar
+        android:id="@+id/loadingBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:indeterminate="true"
         android:visibility="gone"
-        app:cardBackgroundColor="@color/bg_card"
-        app:cardCornerRadius="12dp" app:cardElevation="0dp">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="vertical" android:padding="16dp">
+        android:indeterminateTint="?attr/colorPrimary" />
 
-            <TextView android:id="@+id/tvNombre"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:textColor="@color/text_primary" android:textSize="18sp"
-                android:textStyle="bold" android:layout_marginBottom="12dp"/>
+    <!-- Resultados -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="horizontal" android:layout_marginBottom="6dp">
-                <TextView android:layout_width="120dp" android:layout_height="wrap_content"
-                    android:text="Referencia" android:textColor="@color/text_secondary" android:textSize="13sp"/>
-                <TextView android:id="@+id/tvReferencia"
-                    android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:layout_weight="1" android:textColor="@color/text_primary" android:textSize="13sp"/>
-            </LinearLayout>
+        <LinearLayout
+            android:id="@+id/resultContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="horizontal" android:layout_marginBottom="6dp">
-                <TextView android:layout_width="120dp" android:layout_height="wrap_content"
-                    android:text="Fabricante" android:textColor="@color/text_secondary" android:textSize="13sp"/>
-                <TextView android:id="@+id/tvMarca"
-                    android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:layout_weight="1" android:textColor="@color/text_primary" android:textSize="13sp"/>
-            </LinearLayout>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@color/bg_surface"
+                app:cardCornerRadius="12dp"
+                app:strokeWidth="0dp">
 
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="horizontal" android:layout_marginBottom="6dp">
-                <TextView android:layout_width="120dp" android:layout_height="wrap_content"
-                    android:text="Cód. barras" android:textColor="@color/text_secondary" android:textSize="13sp"/>
-                <TextView android:id="@+id/tvCodigo"
-                    android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:layout_weight="1" android:textColor="@color/text_primary"
-                    android:textSize="13sp" android:fontFamily="monospace"/>
-            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-            <View android:layout_width="match_parent" android:layout_height="1dp"
-                android:background="@color/divider" android:layout_marginVertical="12dp"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:layout_weight="1" android:orientation="vertical" android:gravity="center">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:text="TOTAL" android:textColor="@color/text_secondary" android:textSize="11sp"/>
-                    <TextView android:id="@+id/tvStockTotal"
-                        android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:textColor="@color/text_primary" android:textSize="22sp" android:textStyle="bold"/>
-                    <TextView android:id="@+id/tvUnidad"
-                        android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:textColor="@color/text_secondary" android:textSize="12sp"/>
+                        <TextView
+                            android:id="@+id/tvFabricante"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAllCaps="true"
+                            android:textColor="?attr/colorPrimary"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/btnCloseResult"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_alignParentEnd="true"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:src="@android:drawable/ic_menu_close_clear_cancel"
+                            app:tint="@color/text_secondary" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tvNombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/text_primary"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvReferencia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="12dp"
+                        android:background="@color/divider" />
+
+                    <TextView
+                        android:id="@+id/tvDescripcion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_primary"
+                        android:textSize="14sp" />
+
+                    <!-- Stocks -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="STOCK LIBRE"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:id="@+id/tvStockLibre"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/success"
+                                android:textSize="22sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/btnReservas"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:orientation="vertical"
+                            android:padding="4dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="RESERVADO ▼"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:id="@+id/tvStockReservado"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/warning"
+                                android:textSize="22sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="TOTAL"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:id="@+id/tvStockTotal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/text_primary"
+                                android:textSize="22sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
-                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:layout_weight="1" android:orientation="vertical" android:gravity="center">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:text="DISPONIBLE" android:textColor="@color/text_secondary" android:textSize="11sp"/>
-                    <TextView android:id="@+id/tvStockLibre"
-                        android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:textColor="@color/success" android:textSize="22sp" android:textStyle="bold"/>
-                </LinearLayout>
-            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

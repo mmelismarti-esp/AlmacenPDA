@@ -10,6 +10,7 @@ import com.solenver.almacenpda.data.api.models.LoginRequest
 import com.solenver.almacenpda.data.local.PreferencesManager
 import com.solenver.almacenpda.databinding.ActivityLoginBinding
 import com.solenver.almacenpda.ui.main.MainActivity
+import com.solenver.almacenpda.utils.ThemeHelper
 import com.solenver.almacenpda.utils.toast
 import kotlinx.coroutines.launch
 
@@ -18,6 +19,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ThemeHelper.applyTheme(this)
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)

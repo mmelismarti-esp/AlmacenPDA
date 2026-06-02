@@ -16,7 +16,7 @@
     <ProgressBar android:id="@+id/progressBar"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_gravity="center" android:visibility="gone"
-        android:indeterminateTint="@color/accent"/>
+        android:indeterminateTint="?attr/colorPrimary"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvLineas"
@@ -36,7 +36,7 @@
             <ProgressBar android:id="@+id/progressBar2"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent" android:layout_height="8dp"
-                android:progressTint="@color/accent" android:max="100"/>
+                android:progressTint="?attr/colorPrimary" android:max="100"/>
         </LinearLayout>
 
         <Button android:id="@+id/btnPreparado"

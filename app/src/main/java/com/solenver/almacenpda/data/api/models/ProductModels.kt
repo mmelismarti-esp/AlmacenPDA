@@ -22,8 +22,18 @@ data class LookupResponse(
     val nombre: String?,
     val referencia: String?,
     val marca: String?,
+    @SerializedName("descripcion_tecnica") val descripcion: String?,
     @SerializedName("codigo_barras") val codigoBarras: String?,
     @SerializedName("unidad_medida") val unidadMedida: String?,
     @SerializedName("stock_total") val stockTotal: Double?,
-    @SerializedName("stock_libre") val stockLibre: Double?
+    @SerializedName("stock_libre") val stockLibre: Double?,
+    @SerializedName("stock_reservado") val stockReservado: Double?,
+    val reservas: List<ReservaDetalle>? = emptyList()
+)
+
+data class ReservaDetalle(
+    @SerializedName("pedido_id") val pedidoId: String,
+    val cliente: String,
+    val cantidad: Double,
+    val estado: String
 )

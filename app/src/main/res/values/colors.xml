@@ -11,4 +11,16 @@
     <color name="error">#F44336</color>
     <color name="warning">#FF9800</color>
     <color name="divider">#2E2E4E</color>
+
+    <!-- App Accent Styles -->
+    <color name="style_azul">#4f46e5</color>
+    <color name="style_cielo">#0284c7</color>
+    <color name="style_verde_azulado">#0d9488</color>
+    <color name="style_verde">#16a34a</color>
+    <color name="style_lima">#65a30d</color>
+    <color name="style_ambar">#d97706</color>
+    <color name="style_naranja">#ea580c</color>
+    <color name="style_rojo">#dc2626</color>
+    <color name="style_rosa">#ec4899</color>
+    <color name="style_morado">#9333ea</color>
 </resources>

@@ -3,7 +3,7 @@ package com.solenver.almacenpda.ui.reception
 import android.os.Bundle
 import android.view.*
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +14,7 @@ import com.solenver.almacenpda.data.api.RetrofitClient
 import com.solenver.almacenpda.data.api.models.*
 import com.solenver.almacenpda.databinding.FragmentReceptionBinding
 import com.solenver.almacenpda.utils.*
+import com.solenver.almacenpda.utils.ThemeHelper
 import kotlinx.coroutines.launch
 
 class ReceptionFragment : Fragment() {
@@ -65,15 +66,33 @@ class ReceptionFragment : Fragment() {
     }
 
     private fun pedirCantidad(productoId: Int, nombre: String, unidad: String) {
+        val container = FrameLayout(requireContext())
+        val params = FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        val margin = (20 * resources.displayMetrics.density).toInt()
+        params.setMargins(margin, margin / 2, margin, 0)
+
         val input = TextInputEditText(requireContext()).apply {
             inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
             setText("1")
             selectAll()
+            setTextColor(resources.getColor(R.color.text_primary, null))
         }
-        AlertDialog.Builder(requireContext())
+        
+        val layout = com.google.android.material.textfield.TextInputLayout(requireContext()).apply {
+            hint = "Cantidad ($unidad)"
+            boxBackgroundMode = com.google.android.material.textfield.TextInputLayout.BOX_BACKGROUND_OUTLINE
+            setBoxStrokeColor(ThemeHelper.getColorFromAttr(requireContext(), com.google.android.material.R.attr.colorPrimary))
+            addView(input)
+        }
+        
+        container.addView(layout, params)
+
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle(nombre)
-            .setMessage("Cantidad ($unidad):")
-            .setView(input)
+            .setView(container)
             .setPositiveButton("Añadir") { _, _ ->
                 val qty = input.text.toString().toDoubleOrNull() ?: 1.0
                 if (qty <= 0) { toast("Cantidad no válida"); return@setPositiveButton }
@@ -102,7 +121,7 @@ class ReceptionFragment : Fragment() {
 
     private fun confirmarEntrada() {
         if (lineas.isEmpty()) { toast("No hay artículos"); return }
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle("Confirmar entrada")
             .setMessage("¿Registrar entrada de ${lineas.size} artículo(s)?")
             .setPositiveButton("Confirmar") { _, _ -> enviarEntrada() }
