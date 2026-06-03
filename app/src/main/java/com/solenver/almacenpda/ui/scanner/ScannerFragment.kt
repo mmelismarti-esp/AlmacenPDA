@@ -1,7 +1,14 @@
 package com.solenver.almacenpda.ui.scanner
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.BackgroundColorSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -34,13 +41,11 @@ class ScannerFragment : Fragment() {
     }
 
     private fun setupInput() {
-        // FOCO AUTOMÁTICO pero SIN abrir el teclado
         binding.etScan.requestFocus()
         binding.etScan.showSoftInputOnFocus = false
 
-        // Capturar ENTER (evento del lector de la PDA)
         binding.etScan.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_NULL) {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NONE) {
                 val code = binding.etScan.text.toString().trim()
                 if (code.isNotEmpty()) {
                     processCode(code)
@@ -51,7 +56,6 @@ class ScannerFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        // Botón para abrir el teclado MANUALMENTE
         binding.btnToggleKeyboard.setOnClickListener {
             binding.etScan.showSoftInputOnFocus = true
             binding.etScan.requestFocus()
@@ -59,15 +63,12 @@ class ScannerFragment : Fragment() {
             imm.showSoftInput(binding.etScan, InputMethodManager.SHOW_IMPLICIT)
         }
 
-        // Botón de reset (X)
         binding.btnCloseResult.setOnClickListener {
             resetScreen()
         }
 
-        // Click en Unidades Reservadas
         binding.btnReservas.setOnClickListener {
             // Se asume que el objeto actual tiene el desglose de reservas
-            // Aquí llamaríamos al modal de reservas
         }
     }
 
@@ -77,18 +78,14 @@ class ScannerFragment : Fragment() {
     }
 
     private fun processCode(code: String) {
-        // 1. Identificar si es una Etiqueta de Pedido Interno (Placeholder)
         if (isInternalOrderLabel(code)) {
             handleInternalOrder(code)
             return
         }
-
-        // 2. Si no, buscar como Producto en PHP
         lookupProduct(code)
     }
 
     private fun isInternalOrderLabel(code: String): Boolean {
-        // Patrón futuro: Ej. Códigos que empiezan por "ORD-" o tienen 15 dígitos
         return code.startsWith("ORD-", ignoreCase = true)
     }
 
@@ -126,7 +123,7 @@ class ScannerFragment : Fragment() {
         binding.tvNombre.text = product.nombre
         binding.tvReferencia.text = "REF: ${product.referencia ?: "N/A"}"
         binding.tvDescripcion.text = product.descripcion ?: "Sin descripción técnica."
-        
+
         binding.tvStockLibre.text = "${(product.stockLibre ?: 0.0).fmt()} ${product.unidadMedida}"
         binding.tvStockReservado.text = "${(product.stockReservado ?: 0.0).fmt()} ${product.unidadMedida}"
         binding.tvStockTotal.text = "${(product.stockTotal ?: 0.0).fmt()} ${product.unidadMedida}"
@@ -135,7 +132,6 @@ class ScannerFragment : Fragment() {
             showReservasBreakdown(product)
         }
 
-        // Tras mostrar resultado, volvemos a enfocar el campo ocultando el teclado para el siguiente escaneo
         binding.etScan.setText("")
         binding.etScan.showSoftInputOnFocus = false
         binding.etScan.requestFocus()
@@ -147,8 +143,43 @@ class ScannerFragment : Fragment() {
             return
         }
 
-        val items = product.reservas.map { "${it.cliente}: ${it.cantidad.fmt()} (${it.estado})" }.toTypedArray()
-        
+        val unidad = product.unidadMedida ?: "ud"
+
+        val items: Array<CharSequence> = product.reservas.map { reserva ->
+            val sb = SpannableStringBuilder()
+
+            // Número de obra en negrita (si existe) + nombre
+            if (reserva.pedidoId.isNotEmpty()) {
+                val numText = "[${reserva.pedidoId}] "
+                sb.append(numText)
+                sb.setSpan(
+                    StyleSpan(Typeface.BOLD),
+                    0, numText.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+            sb.append(reserva.cliente)
+
+            // Nueva línea: cantidad + badge de estado con color de fondo
+            sb.append("\n${reserva.cantidad.fmt()} $unidad  ")
+
+            val bgColor = when (reserva.estado) {
+                "En stock"       -> 0xFF43A047.toInt() // verde
+                "En preparación" -> 0xFFEF6C00.toInt() // naranja
+                "Preparado"      -> 0xFF1E88E5.toInt() // azul
+                "Pedido"         -> 0xFF00897B.toInt() // teal
+                "Por pedir"      -> 0xFFF9A825.toInt() // ámbar
+                else             -> 0xFF757575.toInt() // gris
+            }
+            val estadoStart = sb.length
+            sb.append(" ${reserva.estado} ")
+            sb.setSpan(BackgroundColorSpan(bgColor),        estadoStart, sb.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            sb.setSpan(ForegroundColorSpan(Color.WHITE),    estadoStart, sb.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            sb.setSpan(StyleSpan(Typeface.BOLD),            estadoStart, sb.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            sb as CharSequence
+        }.toTypedArray()
+
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Desglose de Reservas")
             .setItems(items, null)
@@ -170,8 +201,7 @@ class ScannerFragment : Fragment() {
         binding.etScan.setText("")
         binding.etScan.showSoftInputOnFocus = false
         binding.etScan.requestFocus()
-        
-        // Esconder teclado por si estaba abierto
+
         val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(binding.etScan.windowToken, 0)
     }
