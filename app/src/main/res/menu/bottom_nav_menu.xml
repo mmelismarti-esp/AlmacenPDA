@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/nav_scanner"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/ic_barcode_scan"
         android:title="@string/nav_scanner" />
     <item android:id="@+id/nav_reception"
         android:icon="@drawable/ic_cart_delivery"
         android:title="@string/nav_reception" />
     <item android:id="@+id/nav_picking"
-        android:icon="@android:drawable/ic_menu_agenda"
+        android:icon="@drawable/ic_list_items"
         android:title="@string/nav_picking" />
     <item android:id="@+id/nav_albaran"
-        android:icon="@android:drawable/ic_menu_send"
+        android:icon="@drawable/ic_box_arrow_up"
         android:title="@string/nav_albaran" />
     <item android:id="@+id/nav_taller"
         android:icon="@android:drawable/ic_input_add"

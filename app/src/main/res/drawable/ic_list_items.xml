@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Bullet 1 -->
+    <path android:fillColor="@android:color/black"
+        android:pathData="M3,7 h2 v2 H3 Z"/>
+    <!-- Line 1 -->
+    <path android:fillColor="@android:color/black"
+        android:pathData="M7,7 h14 v2 H7 Z"/>
+    <!-- Bullet 2 -->
+    <path android:fillColor="@android:color/black"
+        android:pathData="M3,11 h2 v2 H3 Z"/>
+    <!-- Line 2 -->
+    <path android:fillColor="@android:color/black"
+        android:pathData="M7,11 h14 v2 H7 Z"/>
+    <!-- Bullet 3 -->
+    <path android:fillColor="@android:color/black"
+        android:pathData="M3,15 h2 v2 H3 Z"/>
+    <!-- Line 3 (shorter) -->
+    <path android:fillColor="@android:color/black"
+        android:pathData="M7,15 h10 v2 H7 Z"/>
+</vector>
