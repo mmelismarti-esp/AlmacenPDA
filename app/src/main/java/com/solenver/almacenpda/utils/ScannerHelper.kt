@@ -18,10 +18,10 @@ class ScannerHelper(private val onScan: (String) -> Unit) {
     private var lastKeyTime = 0L
 
     fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        if (event.source and android.view.InputDevice.SOURCE_KEYBOARD == 0 &&
-            event.source and android.view.InputDevice.SOURCE_GAMEPAD == 0) {
-            return false
-        }
+        // Source filter removed: many PDAs report SOURCE_UNKNOWN (0) instead of
+        // SOURCE_KEYBOARD, causing scanner input to be silently ignored.
+        // SCAN_TIMEOUT_MS + MIN_BARCODE_LENGTH are sufficient to distinguish
+        // a scanner burst from manual typing.
 
         val now = System.currentTimeMillis()
 

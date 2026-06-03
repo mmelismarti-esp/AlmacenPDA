@@ -44,12 +44,23 @@ class ScannerFragment : Fragment() {
         binding.etScan.requestFocus()
         binding.etScan.showSoftInputOnFocus = false
 
-        binding.etScan.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NONE) {
+        // Hardware ENTER from PDA scanner (fired when ScannerHelper doesn't intercept it)
+        binding.etScan.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN &&
+                (keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_NUMPAD_ENTER)) {
                 val code = binding.etScan.text.toString().trim()
-                if (code.isNotEmpty()) {
-                    processCode(code)
-                }
+                if (code.isNotEmpty()) processCode(code)
+                true
+            } else false
+        }
+
+        // Software keyboard IME action (manual typing via pencil button)
+        binding.etScan.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                actionId == EditorInfo.IME_ACTION_DONE ||
+                actionId == EditorInfo.IME_ACTION_NONE) {
+                val code = binding.etScan.text.toString().trim()
+                if (code.isNotEmpty()) processCode(code)
                 true
             } else false
         }
@@ -73,11 +84,16 @@ class ScannerFragment : Fragment() {
     }
 
     fun onScan(code: String) {
-        binding.etScan.setText(code)
+        // Called by MainActivity when ScannerHelper intercepts the scan.
+        // Clear the field immediately — don't leave the raw code visible.
+        binding.etScan.setText("")
         processCode(code)
     }
 
     private fun processCode(code: String) {
+        // Clear field right away so it's ready for the next scan
+        binding.etScan.setText("")
+        binding.etScan.showSoftInputOnFocus = false
         if (isInternalOrderLabel(code)) {
             handleInternalOrder(code)
             return
