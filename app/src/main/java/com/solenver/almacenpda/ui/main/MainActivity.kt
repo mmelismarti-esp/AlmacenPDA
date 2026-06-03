@@ -18,6 +18,7 @@ import com.solenver.almacenpda.ui.picking.PickingListFragment
 import com.solenver.almacenpda.ui.reception.ReceptionFragment
 import com.solenver.almacenpda.ui.scanner.ScannerFragment
 import com.solenver.almacenpda.ui.settings.SettingsFragment
+import com.solenver.almacenpda.ui.taller.TallerMenuFragment
 import com.solenver.almacenpda.utils.ScannerHelper
 import com.solenver.almacenpda.utils.ThemeHelper
 
@@ -78,6 +79,7 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_reception -> ReceptionFragment()
             R.id.nav_picking   -> PickingListFragment()
             R.id.nav_inventory -> InventoryFragment()
+            R.id.nav_taller    -> TallerMenuFragment()
             else -> return false
         }
         loadFragment(fragment)

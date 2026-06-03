@@ -5,6 +5,7 @@
     <string name="nav_reception">Entrada</string>
     <string name="nav_picking">Pedidos</string>
     <string name="nav_inventory">Inventario</string>
+    <string name="nav_taller">Taller</string>
     <string name="settings">Configuración</string>
     <string name="logout">Cerrar Sesión</string>
     <string name="profile">Perfil</string>
