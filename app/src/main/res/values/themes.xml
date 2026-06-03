@@ -10,10 +10,8 @@
         <item name="android:textColorPrimary">@color/text_primary</item>
         <item name="android:textColorSecondary">@color/text_secondary</item>
 
-        <!-- Fix Popups and Dialogs colors -->
+        <!-- Fix Popups colors -->
         <item name="android:popupMenuStyle">@style/CustomPopupMenu</item>
-        <item name="alertDialogTheme">@style/CustomDialogTheme</item>
-        <item name="materialAlertDialogTheme">@style/CustomMaterialAlertDialog</item>
         <item name="android:dropDownListViewStyle">@style/CustomDropDownListView</item>
     </style>
 
@@ -70,21 +68,6 @@
     <style name="CustomDropDownListView" parent="Widget.AppCompat.ListView.DropDown">
         <item name="android:background">@color/bg_surface</item>
         <item name="android:divider">@color/divider</item>
-    </style>
-
-    <!-- Para AlertDialog clásico (AppCompat) -->
-    <style name="CustomDialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="colorSurface">@color/bg_surface</item>
-        <item name="android:textColorPrimary">@color/text_primary</item>
-        <item name="android:textColorSecondary">@color/text_secondary</item>
-    </style>
-
-    <!-- Para MaterialAlertDialogBuilder: overlay sobre el tema de la actividad -->
-    <style name="CustomMaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="colorSurface">@color/bg_surface</item>
-        <item name="android:textColorPrimary">@color/text_primary</item>
-        <item name="android:textColorSecondary">@color/text_secondary</item>
     </style>
 
     <style name="BtnPrimary" parent="Widget.MaterialComponents.Button">
