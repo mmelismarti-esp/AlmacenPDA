@@ -7,9 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.solenver.almacenpda.databinding.FragmentTallerMenuBinding
 import com.solenver.almacenpda.ui.devoluciones.DevolucionesFragment
-import com.solenver.almacenpda.ui.salida.AlbaranSalidaFragment
 import com.solenver.almacenpda.ui.obras.ConsultaObraFragment
-import com.solenver.almacenpda.ui.despiece.DespieceFragment
+import com.solenver.almacenpda.ui.inventory.InventoryFragment
 import com.solenver.almacenpda.ui.main.MainActivity
 
 class TallerMenuFragment : Fragment() {
@@ -28,14 +27,11 @@ class TallerMenuFragment : Fragment() {
         binding.cardDevoluciones.setOnClickListener {
             (activity as? MainActivity)?.loadFragment(DevolucionesFragment(), addToBackStack = true)
         }
-        binding.cardAlbaranSalida.setOnClickListener {
-            (activity as? MainActivity)?.loadFragment(AlbaranSalidaFragment(), addToBackStack = true)
-        }
         binding.cardConsultaObra.setOnClickListener {
             (activity as? MainActivity)?.loadFragment(ConsultaObraFragment(), addToBackStack = true)
         }
-        binding.cardDespiece.setOnClickListener {
-            (activity as? MainActivity)?.loadFragment(DespieceFragment(), addToBackStack = true)
+        binding.cardInventario.setOnClickListener {
+            (activity as? MainActivity)?.loadFragment(InventoryFragment(), addToBackStack = true)
         }
     }
 

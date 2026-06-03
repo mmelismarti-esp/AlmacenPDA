@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Vertical pole -->
+    <path android:fillColor="@android:color/black"
+        android:pathData="M5,1 L7,1 L7,16 L5,16 Z"/>
+    <!-- Upper box -->
+    <path android:fillColor="@android:color/black"
+        android:pathData="M7,2 L17,2 L17,8 L7,8 Z"/>
+    <!-- Lower box -->
+    <path android:fillColor="@android:color/black"
+        android:pathData="M7,9 L17,9 L17,15 L7,15 Z"/>
+    <!-- Base toe plate -->
+    <path android:fillColor="@android:color/black"
+        android:pathData="M5,15 L17,15 L17,17 L5,17 Z"/>
+    <!-- Wheel (circle at center 7,21 r=3) -->
+    <path android:fillColor="@android:color/black"
+        android:pathData="M7,18 A3,3,0,0,1,7,24 A3,3,0,0,1,7,18 Z"/>
+</vector>

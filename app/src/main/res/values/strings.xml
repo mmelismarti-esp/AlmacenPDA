@@ -2,10 +2,11 @@
 <resources>
     <string name="app_name">Operavia</string>
     <string name="nav_scanner">Escáner</string>
-    <string name="nav_reception">Entrada</string>
-    <string name="nav_picking">Pedidos</string>
+    <string name="nav_reception">Recibir</string>
+    <string name="nav_picking">Despiece</string>
+    <string name="nav_albaran">Albaranes</string>
     <string name="nav_inventory">Inventario</string>
-    <string name="nav_taller">Taller</string>
+    <string name="nav_taller">Más</string>
     <string name="settings">Configuración</string>
     <string name="logout">Cerrar Sesión</string>
     <string name="profile">Perfil</string>

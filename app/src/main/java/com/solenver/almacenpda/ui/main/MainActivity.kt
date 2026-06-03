@@ -16,6 +16,7 @@ import com.solenver.almacenpda.ui.inventory.InventoryFragment
 import com.solenver.almacenpda.ui.login.LoginActivity
 import com.solenver.almacenpda.ui.picking.PickingListFragment
 import com.solenver.almacenpda.ui.reception.ReceptionFragment
+import com.solenver.almacenpda.ui.salida.AlbaranSalidaFragment
 import com.solenver.almacenpda.ui.scanner.ScannerFragment
 import com.solenver.almacenpda.ui.settings.SettingsFragment
 import com.solenver.almacenpda.ui.taller.TallerMenuFragment
@@ -78,7 +79,7 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_scanner   -> ScannerFragment()
             R.id.nav_reception -> ReceptionFragment()
             R.id.nav_picking   -> PickingListFragment()
-            R.id.nav_inventory -> InventoryFragment()
+            R.id.nav_albaran   -> AlbaranSalidaFragment()
             R.id.nav_taller    -> TallerMenuFragment()
             else -> return false
         }
