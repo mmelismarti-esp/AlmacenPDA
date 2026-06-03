@@ -37,7 +37,7 @@
             android:foreground="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            app:cardBackgroundColor="@color/card_bg"
+            app:cardBackgroundColor="@color/bg_card"
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp">
 
@@ -90,7 +90,7 @@
             android:foreground="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            app:cardBackgroundColor="@color/card_bg"
+            app:cardBackgroundColor="@color/bg_card"
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp">
 
@@ -111,7 +111,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="📤  Albarán de Salida"
-                        android:textColor="@color/primary"
+                        android:textColor="@color/accent"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:layout_marginBottom="4dp" />
@@ -143,7 +143,7 @@
             android:foreground="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            app:cardBackgroundColor="@color/card_bg"
+            app:cardBackgroundColor="@color/bg_card"
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp">
 
@@ -196,7 +196,7 @@
             android:foreground="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            app:cardBackgroundColor="@color/card_bg"
+            app:cardBackgroundColor="@color/bg_card"
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp">
 

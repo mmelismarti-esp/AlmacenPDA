@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="20dp"
-            android:background="@color/surface">
+            android:background="@color/bg_surface">
 
             <TextView
                 android:id="@+id/tvModuleIcon"
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="12dp"
-            app:cardBackgroundColor="@color/card_bg"
+            app:cardBackgroundColor="@color/bg_card"
             app:cardCornerRadius="12dp"
             app:cardElevation="0dp">
 
@@ -77,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="¿Para qué sirve este módulo?"
-                    android:textColor="@color/primary"
+                    android:textColor="@color/accent"
                     android:textSize="13sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp" />
@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="24dp"
-            app:cardBackgroundColor="@color/card_bg"
+            app:cardBackgroundColor="@color/bg_card"
             app:cardCornerRadius="12dp"
             app:cardElevation="0dp">
 
@@ -112,7 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Funciones previstas"
-                    android:textColor="@color/primary"
+                    android:textColor="@color/accent"
                     android:textSize="13sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="8dp" />
