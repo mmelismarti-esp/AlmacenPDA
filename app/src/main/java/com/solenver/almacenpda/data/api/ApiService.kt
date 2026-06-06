@@ -12,6 +12,10 @@ interface ApiService {
     @GET("auth/me")
     suspend fun me(): LoginResponse
 
+    // Empresa (configuración global)
+    @GET("empresa/")
+    suspend fun getEmpresa(): Map<String, String?>
+
     // Productos
     @GET("productos/lookup/{codigo}")
     suspend fun lookupProducto(@Path("codigo") codigo: String): LookupResponse

@@ -46,6 +46,15 @@ class LoginActivity : AppCompatActivity() {
                 val resp = RetrofitClient.api.login(LoginRequest(email, pass))
                 PreferencesManager.saveSession(this@LoginActivity, resp.token, resp.nombre, resp.rol)
                 RetrofitClient.setToken(resp.token)
+                // Sincronizar URL de impresora desde la configuración del portal (sin bloquear)
+                launch {
+                    try {
+                        val empresa = RetrofitClient.api.getEmpresa()
+                        empresa["printer_server_url"]
+                            ?.takeIf { it.isNotBlank() }
+                            ?.let { PreferencesManager.savePrinterUrl(this@LoginActivity, it) }
+                    } catch (_: Exception) { }
+                }
                 goMain()
             } catch (e: Exception) {
                 toast("Error: ${e.message ?: "Credenciales incorrectas"}")

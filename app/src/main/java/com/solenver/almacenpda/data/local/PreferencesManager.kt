@@ -12,6 +12,8 @@ object PreferencesManager {
     private const val KEY_USER_NAME = "user_name"
     private const val KEY_USER_ROL = "user_rol"
     private const val KEY_APP_THEME = "app_theme"
+    private const val KEY_PRINTER_URL = "printer_url"
+    private const val DEFAULT_PRINTER_URL = "http://192.168.1.100:5000"
 
     private var sharedPreferences: SharedPreferences? = null
 
@@ -49,6 +51,13 @@ object PreferencesManager {
     }
 
     fun getTheme(context: Context): String = getPrefs(context).getString(KEY_APP_THEME, "Azul") ?: "Azul"
+
+    fun savePrinterUrl(context: Context, url: String) {
+        getPrefs(context).edit().putString(KEY_PRINTER_URL, url).apply()
+    }
+
+    fun getPrinterUrl(context: Context): String =
+        getPrefs(context).getString(KEY_PRINTER_URL, DEFAULT_PRINTER_URL) ?: DEFAULT_PRINTER_URL
 
     fun clear(context: Context) {
         val theme = getTheme(context)

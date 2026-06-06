@@ -12,4 +12,18 @@
     <string name="profile">Perfil</string>
     <string name="settings_title">Configuración</string>
     <string name="app_style">Estilo de la aplicación</string>
+
+    <!-- Impresora de etiquetas -->
+    <string name="printer_section_title">Impresora de etiquetas</string>
+    <string name="printer_url_label">URL del servidor de impresión</string>
+    <string name="printer_url_hint">http://192.168.1.100:5000</string>
+    <string name="printer_url_hint_portal">Se sincroniza automáticamente desde el portal web al hacer login</string>
+    <string name="printer_test_btn">Probar conexión</string>
+    <string name="printer_testing">Comprobando…</string>
+    <string name="printer_ok">Conectada: %s</string>
+    <string name="printer_not_connected">Servidor OK, impresora no detectada</string>
+    <string name="printer_error">Error: %s</string>
+    <string name="printer_unreachable">No se puede conectar al servidor</string>
+    <string name="printer_print_ok">Etiqueta impresa</string>
+    <string name="printer_print_error">Error al imprimir: %s</string>
 </resources>

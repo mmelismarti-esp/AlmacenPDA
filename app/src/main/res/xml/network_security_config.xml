@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- solenver.com siempre requiere HTTPS -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">solenver.com</domain>
+    </domain-config>
+    <!-- El servidor de impresión local usa HTTP en la red interna -->
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

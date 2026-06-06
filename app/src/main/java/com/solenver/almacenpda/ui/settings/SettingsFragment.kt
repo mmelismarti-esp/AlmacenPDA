@@ -8,11 +8,14 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.solenver.almacenpda.R
 import com.solenver.almacenpda.data.local.PreferencesManager
 import com.solenver.almacenpda.databinding.FragmentSettingsBinding
+import com.solenver.almacenpda.ui.printing.PrintService
+import kotlinx.coroutines.launch
 
 class SettingsFragment : Fragment() {
 
@@ -43,11 +46,46 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val currentStyle = PreferencesManager.getTheme(requireContext())
-        
+
         binding.rvStyles.layoutManager = LinearLayoutManager(requireContext())
         binding.rvStyles.adapter = StyleAdapter(styles, currentStyle) { style ->
             PreferencesManager.saveTheme(requireContext(), style.name)
             activity?.recreate()
+        }
+
+        // Sección impresora
+        binding.etPrinterUrl.setText(PreferencesManager.getPrinterUrl(requireContext()))
+
+        binding.btnTestPrinter.setOnClickListener {
+            val url = binding.etPrinterUrl.text.toString().trim()
+            if (url.isBlank()) return@setOnClickListener
+            PreferencesManager.savePrinterUrl(requireContext(), url)
+
+            binding.tvPrinterStatus.visibility = View.VISIBLE
+            binding.tvPrinterStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_secondary))
+            binding.tvPrinterStatus.text = getString(R.string.printer_testing)
+            binding.btnTestPrinter.isEnabled = false
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    val resp = PrintService.checkEstado(url)
+                    if (resp.ok && resp.conectada) {
+                        binding.tvPrinterStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.success))
+                        binding.tvPrinterStatus.text = getString(R.string.printer_ok, resp.modelo ?: "QL-800")
+                    } else if (resp.ok) {
+                        binding.tvPrinterStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.warning))
+                        binding.tvPrinterStatus.text = getString(R.string.printer_not_connected)
+                    } else {
+                        binding.tvPrinterStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.error))
+                        binding.tvPrinterStatus.text = getString(R.string.printer_error, resp.error ?: "")
+                    }
+                } catch (e: Exception) {
+                    binding.tvPrinterStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.error))
+                    binding.tvPrinterStatus.text = getString(R.string.printer_unreachable)
+                } finally {
+                    binding.btnTestPrinter.isEnabled = true
+                }
+            }
         }
     }
 
