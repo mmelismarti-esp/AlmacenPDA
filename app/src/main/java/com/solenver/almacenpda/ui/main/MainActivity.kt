@@ -12,6 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.solenver.almacenpda.R
 import com.solenver.almacenpda.data.local.PreferencesManager
 import com.solenver.almacenpda.databinding.ActivityMainBinding
+import com.solenver.almacenpda.ui.despiece.DespieceDetalleFragment
 import com.solenver.almacenpda.ui.inventory.InventoryFragment
 import com.solenver.almacenpda.ui.login.LoginActivity
 import com.solenver.almacenpda.ui.picking.PickingListFragment
@@ -105,9 +106,10 @@ class MainActivity : AppCompatActivity() {
     private fun forwardScanToFragment(code: String) {
         val current = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
         when (current) {
-            is ScannerFragment   -> current.onScan(code)
-            is ReceptionFragment -> current.onScan(code)
-            is InventoryFragment -> current.onScan(code)
+            is ScannerFragment        -> current.onScan(code)
+            is ReceptionFragment      -> current.onScan(code)
+            is InventoryFragment      -> current.onScan(code)
+            is DespieceDetalleFragment -> current.onScan(code)
         }
     }
 }

@@ -1,50 +1,82 @@
 package com.solenver.almacenpda.ui.despiece
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.solenver.almacenpda.databinding.FragmentModulePlaceholderBinding
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.solenver.almacenpda.R
+import com.solenver.almacenpda.data.api.RetrofitClient
+import com.solenver.almacenpda.data.api.models.Despiece
+import com.solenver.almacenpda.databinding.FragmentDespieceListBinding
+import com.solenver.almacenpda.ui.main.MainActivity
+import com.solenver.almacenpda.utils.toast
+import kotlinx.coroutines.launch
 
 class DespieceFragment : Fragment() {
 
-    private var _binding: FragmentModulePlaceholderBinding? = null
+    private var _binding: FragmentDespieceListBinding? = null
     private val binding get() = _binding!!
+    private val items = mutableListOf<Despiece>()
+    private var adapter: DespieceAdapter? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentModulePlaceholderBinding.inflate(inflater, container, false)
+    override fun onCreateView(inflater: LayoutInflater, c: ViewGroup?, s: Bundle?): View {
+        _binding = FragmentDespieceListBinding.inflate(inflater, c, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.tvModuleIcon.text = "📋"
-        binding.tvModuleTitle.text = "Despiece"
-        binding.tvModuleSubtitle.text = "Preparar materiales de una obra artículo a artículo"
-
-        binding.tvModuleDescription.text =
-            "Este módulo permite preparar físicamente el material de un despiece de obra. " +
-            "El operario selecciona o escanea la obra, ve la lista de materiales necesarios " +
-            "y va escaneando cada artículo conforme lo recoge del almacén. " +
-            "Al escanear, el sistema marca el material como preparado y actualiza " +
-            "el stock reservado.\n\n" +
-            "Es la función principal de preparación de pedidos en el taller, sustituyendo " +
-            "al proceso manual de papel en el picking de obras."
-
-        binding.tvModuleFeatures.text =
-            "• Seleccionar obra por número o escaneando código\n" +
-            "• Ver lista de materiales pendientes de preparar del despiece\n" +
-            "• Escanear artículo para marcarlo como preparado\n" +
-            "• Indicar cantidad preparada (parcial o completa)\n" +
-            "• Alertar si el artículo escaneado no está en el despiece\n" +
-            "• Indicar incidencia si no hay stock disponible\n" +
-            "• Generar albarán de salida al completar la preparación"
+    override fun onViewCreated(view: View, s: Bundle?) {
+        adapter = DespieceAdapter(items) { d ->
+            (activity as? MainActivity)?.loadFragment(
+                DespieceDetalleFragment.newInstance(d.id), addToBackStack = true
+            )
+        }
+        binding.rvDespieces.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvDespieces.adapter = adapter
+        binding.swipeRefresh.setOnRefreshListener { cargar() }
+        cargar()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun cargar() {
+        binding.swipeRefresh.isRefreshing = true
+        lifecycleScope.launch {
+            try {
+                val lista = RetrofitClient.api.getDespieces("enviado")
+                items.clear()
+                items.addAll(lista)
+                adapter?.notifyDataSetChanged()
+                binding.tvEmpty.visibility = if (lista.isEmpty()) View.VISIBLE else View.GONE
+            } catch (e: Exception) {
+                toast("Error: ${e.message}")
+            } finally {
+                binding.swipeRefresh.isRefreshing = false
+            }
+        }
+    }
+
+    override fun onDestroyView() { super.onDestroyView(); _binding = null }
+}
+
+private class DespieceAdapter(
+    private val items: List<Despiece>,
+    private val onClick: (Despiece) -> Unit
+) : RecyclerView.Adapter<DespieceAdapter.VH>() {
+
+    inner class VH(val view: View) : RecyclerView.ViewHolder(view)
+
+    override fun onCreateViewHolder(parent: ViewGroup, vt: Int) =
+        VH(LayoutInflater.from(parent.context).inflate(R.layout.item_despiece, parent, false))
+
+    override fun getItemCount() = items.size
+
+    override fun onBindViewHolder(h: VH, pos: Int) {
+        val d = items[pos]
+        h.view.findViewById<TextView>(R.id.tvObra).text = d.obraNombre
+        h.view.findViewById<TextView>(R.id.tvFecha).text = d.creadoEn
+        h.view.findViewById<TextView>(R.id.tvStock).text =
+            "${d.nLineasConStock}/${d.nLineas} art."
+        h.view.setOnClickListener { onClick(d) }
     }
 }

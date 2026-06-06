@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.solenver.almacenpda.databinding.FragmentTallerMenuBinding
+import com.solenver.almacenpda.ui.despiece.DespieceFragment
 import com.solenver.almacenpda.ui.devoluciones.DevolucionesFragment
 import com.solenver.almacenpda.ui.obras.ConsultaObraFragment
 import com.solenver.almacenpda.ui.inventory.InventoryFragment
@@ -24,6 +25,9 @@ class TallerMenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.cardDespiece.setOnClickListener {
+            (activity as? MainActivity)?.loadFragment(DespieceFragment(), addToBackStack = true)
+        }
         binding.cardDevoluciones.setOnClickListener {
             (activity as? MainActivity)?.loadFragment(DevolucionesFragment(), addToBackStack = true)
         }

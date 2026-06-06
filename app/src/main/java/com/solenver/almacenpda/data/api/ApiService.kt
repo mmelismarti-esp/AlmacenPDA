@@ -49,4 +49,14 @@ interface ApiService {
     // Inventarios
     @POST("inventarios")
     suspend fun crearInventario(@Body request: InventarioRequest): InventarioResponse
+
+    // Despieces
+    @GET("despieces")
+    suspend fun getDespieces(@Query("estado") estado: String = "enviado"): List<Despiece>
+
+    @GET("despieces/{id}")
+    suspend fun getDespieceDetalle(@Path("id") id: Int): DespieceDetalle
+
+    @POST("despieces/{id}/confirmar-entrega")
+    suspend fun confirmarEntregaDespiece(@Path("id") id: Int): Map<String, Any>
 }
